@@ -11,10 +11,11 @@ pygame.display.set_caption("Aim Trainer With Tim")
 
 TARGET_INCREMENT = 400
 TARGET_EVENT = pygame.USEREVENT
-
 TARGET_PADDING = 30
-
 BG_COLOR = (0, 25, 40)
+LIVES = 3
+TOP_BAR_HEIGHT = 50
+LABEL_FONT = pygame.font.SysFont("comicsans", 24)
 
 
 class Target:
@@ -55,7 +56,18 @@ def draw(win, targets):
     for target in targets:
         target.draw(win)
 
-    pygame.display.update()
+
+def format_time(secs):
+    milli = math.floor(int(secs) * 1000 % 1000 / 100)
+    seconds = int(round(secs % 60, 1))
+    minutes = int(secs // 60)
+    return f"{minutes:02d}:{seconds:02d}.{milli}"
+
+
+def draw_top_bar(win, elapsed_time, targets_pressed, misses):
+    pygame.draw.rect(win, "grey", (0, 0, WIDTH, TOP_BAR_HEIGHT))
+    time_label = LABEL_FONT.render(f"Time: {format_time(elapsed_time)}", True, "black")
+    win.blit(time_label, (5, 5))
 
 
 def main():
@@ -74,6 +86,7 @@ def main():
         clock.tick(60)
         click = False
         mouse_pos = pygame.mouse.get_pos()
+        elapsed_time = time.time() - start_time
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -101,7 +114,12 @@ def main():
                 targets.remove(target)
                 target_pressed += 1
 
+        if misses >= LIVES:
+            pass # end game
+
         draw(WIN, targets)
+        draw_top_bar(WIN, elapsed_time, target_pressed, misses)
+        pygame.display.update()
 
     pygame.quit()
 
