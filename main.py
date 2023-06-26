@@ -81,10 +81,10 @@ def draw_top_bar(win, elapsed_time, targets_pressed, misses):
 
 def end_screen(win, elapsed_time, targets_pressed, clicks):
     win.fill(BG_COLOR)
-    time_label = LABEL_FONT.render(f"Time: {format_time(elapsed_time)}", True, "black")
+    time_label = LABEL_FONT.render(f"Time: {format_time(elapsed_time)}", True, "white")
     speed = round(targets_pressed / elapsed_time, 1)
-    speed_label = LABEL_FONT.render(f"Speed: {speed} t/s", True, "black")
-    hits_label = LABEL_FONT.render(f"Hits: {targets_pressed}", True, "black")
+    speed_label = LABEL_FONT.render(f"Speed: {speed} t/s", True, "white")
+    hits_label = LABEL_FONT.render(f"Hits: {targets_pressed}", True, "white")
     accuracy = round(targets_pressed / clicks * 100, 1)
     accuracy_label = LABEL_FONT.render(f"Accuracy: {accuracy}%", True, "white")
 
